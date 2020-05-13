@@ -8,5 +8,5 @@
             "js" : "void(window.open(\"\",\"utagmon\",\"width=800,height=800,location=0,menubar=0,status=1,toolbar=0,resizable=1,scrollbars=1\").document.write(\"<script language='JavaScript' id='utagmon' src='//cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/VersioningTool.js?_cb=\"+Math.random()+\"'></\"+\"script>\"));",
             "auto_inject" : true
         }
-    }
+    }//cole
 }
