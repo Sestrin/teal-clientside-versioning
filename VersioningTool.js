@@ -33,6 +33,7 @@ var page_HTML =
 		<div id="Main" class="tabcontent">
 		  <h3>Control Panel</h3>
 		  <p>Lets set stuff up.</p>
+		  <div id='history'></div>
 		</div>
 
 		<div id="Calendar" class="tabcontent">
@@ -110,7 +111,7 @@ window.status = 'Versions Tool';
 
 
 var c_history = window.opener.utui.data.publish_history;
-prev = 201909091545; //any version without periods
+prev = 202003031545; //any version without periods
 post = 202005061643; //any later version without periods
 var historyBlob = {
 	dev: {},
@@ -128,11 +129,9 @@ var getAggregateChanges = function(prev, post) {
 		}
 	}
 }
-var main_tab = document.getElementById("Main");
-main_tab.innerHTML += "<div id='history'></div>"
-function appendData(data) {
-	var mainContainer = document.getElementById("history");
 
+function appendData(data) {
+	var hist_div = document.getElementById("history");
 	var div = document.createElement("div");
 	div.innerHTML = 'Version: ' + data;
 	mainContainer.appendChild(div);
