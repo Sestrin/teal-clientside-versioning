@@ -115,11 +115,6 @@ function openTab(evt, tab_name) {
 		tablinks[i].className = tablinks[i].className.replace(" active", "");
 	}
 
-	if(tab_name == "Calendar") {
-		var cal = new tui.Calendar('#calendar', {
-            defaultView: 'month' // monthly view option
-        });
-	}
 	// Show the current tab, and add an "active" class to the button that opened the tab
 	document.getElementById(tab_name).style.display = "block";
 	evt.currentTarget.className += " active";
@@ -139,6 +134,12 @@ if(document.title != tool_name) {
 	for(i in calendar_styles) {
         addCss(calendar_styles[i], true);
     }
+    var cal;
+    setTimeout(function() {
+    	cal = new tui.Calendar('#calendar', {
+        	defaultView: 'month'
+    	});
+    },1000);
 }
 
 
