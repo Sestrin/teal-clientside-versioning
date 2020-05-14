@@ -1,7 +1,6 @@
 //NEW Versions Tool
 //Author: Kale Man Porkins
 
-
 function addClass(elem, cls) {
 	elem.className += " " + cls;
 };
@@ -47,7 +46,21 @@ var page_HTML =
 
 		<div id="Calendar" class="tabcontent">
 		  <!-- DONT HARDCODE THIS -->
-		  <div id="calendar"></div>
+		  <div id="menu">
+            <span id="menu-navi">
+              <button type="button" class="btn btn-default btn-sm move-today" data-action="move-today">Today</button>
+              <button type="button" class="btn btn-default btn-sm move-day" data-action="move-prev">
+                <i class="calendar-icon ic-arrow-line-left" data-action="move-prev"></i>
+              </button>
+              <button type="button" class="btn btn-default btn-sm move-day" data-action="move-next">
+                <i class="calendar-icon ic-arrow-line-right" data-action="move-next"></i>
+              </button>
+            </span>
+            <span id="renderRange" class="render-range"></span>
+          </div>
+
+    <div id="calendar"></div>
+  
 		</div>
 
 		<div id="Variables" class="tabcontent">
@@ -93,13 +106,61 @@ var style_sheet =
 `
 // Im not sure which ones are necessary yet
 var calendar_scripts = ['https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.js',
-                        'https://uicdn.toast.com/tui.dom/v3.0.0/tui-dom.js',
-                        'https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js',
-                        'https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js',
+                        //'https://uicdn.toast.com/tui.dom/v3.0.0/tui-dom.js',
+                        //'https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js',
+                        //'https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js',
                         'https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js'];
-var calendar_styles = ['https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css',
+var calendar_styles = ['https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css']/*,
                        'https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css',
-                       'https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css'];
+                       'https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css'];*/
+var custom_theme = {
+
+	// common attributes
+	'common.border': '1px solid #e5e5e5',
+    'common.backgroundColor': 'white',
+    'common.holiday.color': '#333',
+    'common.saturday.color': '#333',
+    'common.dayname.color': '#333',
+    'common.today.color': '#333',
+    'common.creationGuide.backgroundColor': 'rgba(81, 92, 230, 0.05)',
+    'common.creationGuide.border': '1px solid #515ce6',
+
+    // month header 'dayname'
+    'month.dayname.height': '42px',
+    'month.dayname.borderLeft': 'none',
+    'month.dayname.paddingLeft': '8px',
+    'month.dayname.paddingRight': '0',
+    'month.dayname.fontSize': '13px',
+    'month.dayname.backgroundColor': 'inherit',
+    'month.dayname.fontWeight': 'normal',
+    'month.dayname.textAlign': 'left',
+
+    // month day grid cell 'day'
+    'month.holidayExceptThisMonth.color': '#bbb',
+    'month.dayExceptThisMonth.color': '#bbb',
+    'month.weekend.backgroundColor': '#fafafa',
+    'month.day.fontSize': '16px',
+
+    // month schedule style
+    'month.schedule.borderRadius': '5px',
+    'month.schedule.height': '18px',
+    'month.schedule.marginTop': '2px',
+    'month.schedule.marginLeft': '10px',
+    'month.schedule.marginRight': '10px',
+
+    // month more view
+    'month.moreView.boxShadow': 'none',
+    'month.moreView.paddingBottom': '0',
+    'month.moreView.border': '1px solid #9a935a',
+    'month.moreView.backgroundColor': '#f9f3c6',
+    'month.moreViewTitle.height': '28px',
+    'month.moreViewTitle.marginBottom': '0',
+    'month.moreViewTitle.backgroundColor': '#f4f4f4',
+    'month.moreViewTitle.borderBottom': '1px solid #ddd',
+    'month.moreViewTitle.padding': '0 10px',
+    'month.moreViewList.padding': '10px'
+  };
+
 function openTab(evt, tab_name) {
 	var i, tabcontent, tablinks;
 
@@ -115,6 +176,11 @@ function openTab(evt, tab_name) {
 		tablinks[i].className = tablinks[i].className.replace(" active", "");
 	}
 
+	if(tab_name == "Calendar") {
+		//var cal = new tui.Calendar('#calendar', {
+          //  defaultView: 'month' // monthly view option
+        //});
+	}
 	// Show the current tab, and add an "active" class to the button that opened the tab
 	document.getElementById(tab_name).style.display = "block";
 	evt.currentTarget.className += " active";
@@ -137,7 +203,8 @@ if(document.title != tool_name) {
     var cal;
     setTimeout(function() {
     	cal = new tui.Calendar('#calendar', {
-        	defaultView: 'month'
+        	defaultView: 'month',
+        	theme: custom_theme
     	});
     },1000);
 }
