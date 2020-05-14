@@ -5,12 +5,20 @@
 function addClass(elem, cls) {
 	elem.className += " " + cls;
 };
-function addCss(rule) {
-	let css = document.createElement("style");
-	css.type = "text/css";
-	if (css.styleSheet) css.styleSheet.cssText = rule;
-	else css.appendChild(document.createTextNode(rule));
-	document.getElementsByTagName("head")[0].appendChild(css);
+function addCss(rule, load) {
+	if(!load) {
+		let css = document.createElement("style");
+		css.type = "text/css";
+		if (css.styleSheet) css.styleSheet.cssText = rule;
+		else css.appendChild(document.createTextNode(rule));
+		document.getElementsByTagName("head")[0].appendChild(css);
+	} else {
+	    var cssNode = document.createElement("link");
+	    cssNode.setAttribute("rel", "stylesheet");
+	    cssNode.setAttribute("type", "text/css");
+	    cssNode.setAttribute("href", rule);
+	    document.getElementsByTagName("head")[0].appendChild(cssNode);
+	}
 }
 
 var tool_name = 'Versions Tool';
@@ -38,8 +46,8 @@ var page_HTML =
 		</div>
 
 		<div id="Calendar" class="tabcontent">
-		  <h3>Calendar</h3>
-		  <p>Displays a calendar and shit.</p>
+		  <!-- DONT HARDCODE THIS -->
+		  <div id="calendar"></div>
 		</div>
 
 		<div id="Variables" class="tabcontent">
@@ -83,6 +91,15 @@ var style_sheet =
 	border-top: none;
 }
 `
+// Im not sure which ones are necessary yet
+var calendar_scripts = ['https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.js',
+                        'https://uicdn.toast.com/tui.dom/v3.0.0/tui-dom.js',
+                        'https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js',
+                        'https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js',
+                        'https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js'];
+var calendar_styles = ['https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css',
+                       'https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css',
+                       'https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css'];
 function openTab(evt, tab_name) {
 	var i, tabcontent, tablinks;
 
@@ -98,17 +115,34 @@ function openTab(evt, tab_name) {
 		tablinks[i].className = tablinks[i].className.replace(" active", "");
 	}
 
+	if(tab_name == "Calendar") {
+		var cal = new tui.Calendar('#calendar', {
+            defaultView: 'month' // monthly view option
+        });
+	}
 	// Show the current tab, and add an "active" class to the button that opened the tab
 	document.getElementById(tab_name).style.display = "block";
 	evt.currentTarget.className += " active";
 }
-
 if(document.title != tool_name) {
 	document.write(page_HTML);
 	addCss(style_sheet);
 	document.title = tool_name;
 	window.status = tool_name;
+	
+	for(i in calendar_scripts) {
+		var body = document.getElementsByTagName("body")[0];
+		var c_script = document.createElement("script");
+		c_script.src = calendar_scripts[i];
+		body.insertBefore(c_script, body.firstElementChild);
+	}
+	for(i in calendar_styles) {
+        addCss(calendar_styles[i], true);
+    }
 }
+
+
+
 
 var c_history = window.opener.utui.data.publish_history;
 prev = 202003031545; //any version without periods
