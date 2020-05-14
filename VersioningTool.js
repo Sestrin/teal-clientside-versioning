@@ -13,6 +13,7 @@ function addCss(rule) {
 	document.getElementsByTagName("head")[0].appendChild(css);
 }
 
+var tool_name = 'Versions Tool';
 var page_HTML = 
 `
 <html>
@@ -102,13 +103,12 @@ function openTab(evt, tab_name) {
 	evt.currentTarget.className += " active";
 }
 
-document.write(page_HTML);
-addCss(style_sheet);
-document.title = 'Versions Tool';
-window.status = 'Versions Tool';
-
-
-
+if(document.title != tool_name) {
+	document.write(page_HTML);
+	addCss(style_sheet);
+	document.title = tool_name;
+	window.status = tool_name;
+}
 
 var c_history = window.opener.utui.data.publish_history;
 prev = 202003031545; //any version without periods
