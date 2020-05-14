@@ -134,7 +134,7 @@ function appendData(data) {
 	var hist_div = document.getElementById("history");
 	var div = document.createElement("div");
 	div.innerHTML = 'Version: ' + data;
-	mainContainer.appendChild(div);
+	hist_div.appendChild(div);
 
 }
 getAggregateChanges(prev,post)
