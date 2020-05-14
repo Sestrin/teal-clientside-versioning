@@ -31,9 +31,10 @@ var page_HTML =
 		<!-- Tab links -->
 		<div class="tab">
 		  <button class="tablinks" onclick="openTab(event, 'Main')">Main</button>
-		  <button class="tablinks" onclick="openTab(event, 'Calendar')">Calendar</button>
+		  <button class="tablinks" onclick="openTab(event, 'Calendar-tab')">Calendar</button>
 		  <button class="tablinks" onclick="openTab(event, 'Variables')">Variables</button>
 		  <button class="tablinks" onclick="openTab(event, 'Extensions')">Extensions</button>
+		  <button class="tablinks" onclick="openTab(event, 'Coleman')">Coleman</button>
 
 		</div>
 
@@ -44,8 +45,7 @@ var page_HTML =
 		  <div id='history'></div>
 		</div>
 
-		<div id="Calendar" class="tabcontent">
-		  <!-- DONT HARDCODE THIS -->
+		<div id="Calendar-tab" class="tabcontent">
 		  <div id="menu">
             <span id="menu-navi">
               <button type="button" class="btn btn-default btn-sm move-today" data-action="move-today">Today</button>
@@ -59,7 +59,7 @@ var page_HTML =
             <span id="renderRange" class="render-range"></span>
           </div>
 
-    <div id="calendar"></div>
+          <div id="calendar"></div>
   
 		</div>
 
@@ -72,6 +72,18 @@ var page_HTML =
 		  <h3>Extensions</h3>
 		  <p>Extensions extend your usefullness.</p>
 		</div>
+
+        <div id="Coleman" class="tabcontent">
+		  <h3>Coleman</h3>
+		  <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" class="app-icon app-icon--medium" data-identifyElement="248">
+		    <g fill="#FF5959" fill-rule="evenodd" data-identifyElement="249">
+		      <path fill-opacity=".3" stroke="#FF5959" stroke-width="4.56" d="M56 29.693c0-14.691-11.864-26.6-26.5-26.6S3 15.002 3 29.693c0 14.692 11.864 26.6 26.5 26.6S56 44.385 56 29.693" data-identifyElement="250"></path>
+		      <path fill-rule="nonzero" d="M16.327 41.214c6.283-8.392 20.063-8.392 26.346 0a2.286 2.286 0 01-.451 3.192 2.266 2.266 0 01-3.18-.453c-4.466-5.964-14.618-5.964-19.083 0a2.266 2.266 0 01-3.18.453 2.286 2.286 0 01-.452-3.192z" data-identifyElement="251"></path>
+		      <path d="M43.696 23.9c0-2.624-2.117-4.75-4.732-4.75-2.612 0-4.732 2.126-4.732 4.75 0 2.622 2.12 4.75 4.732 4.75 2.615 0 4.732-2.128 4.732-4.75m-18.928 0c0-2.624-2.118-4.75-4.732-4.75-2.612 0-4.732 2.126-4.732 4.75 0 2.622 2.12 4.75 4.732 4.75 2.614 0 4.732-2.128 4.732-4.75" data-identifyElement="252"></path>
+		    </g>
+		  </svg>
+		</div>
+		
 	</body>
 </html>
 `
@@ -175,12 +187,7 @@ function openTab(evt, tab_name) {
 	for (i = 0; i < tablinks.length; i++) {
 		tablinks[i].className = tablinks[i].className.replace(" active", "");
 	}
-
-	if(tab_name == "Calendar") {
-		//var cal = new tui.Calendar('#calendar', {
-          //  defaultView: 'month' // monthly view option
-        //});
-	}
+	
 	// Show the current tab, and add an "active" class to the button that opened the tab
 	document.getElementById(tab_name).style.display = "block";
 	evt.currentTarget.className += " active";
@@ -246,3 +253,4 @@ for (test in historyBlob) {
  		appendData(test2);
 }
 console.log(c_history);
+
