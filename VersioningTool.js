@@ -1,5 +1,27 @@
 //NEW Versions Tool
 //Author: Kale Man Porkins
+    (function(a,b,c,d){
+    a='//momentjs.com/downloads/moment.js';
+    b=document;
+    c='script';
+    d=b.createElement(c);
+    d.src=a;
+    d.type='text/java'+c;
+    d.async=true;
+    a=b.getElementsByTagName(c)[0];
+    a.parentNode.insertBefore(d,a);
+    })();
+    (function(a,b,c,d){
+    a='//code.jquery.com/jquery-3.2.1.slim.min.js';
+    b=document;
+    c='script';
+    d=b.createElement(c);
+    d.src=a;
+    d.type='text/java'+c;
+    d.async=true;
+    a=b.getElementsByTagName(c)[0];
+    a.parentNode.insertBefore(d,a);
+    })();
 
 function addClass(elem, cls) {
 	elem.className += " " + cls;
@@ -83,12 +105,14 @@ var page_HTML =
 		    </g>
 		  </svg>
 		</div>
-		
 	</body>
 </html>
 `
 var style_sheet = 
 `
+.tui-full-calendar-month-more-list {
+    background-color: hsl(208, 100%, 97%);
+}
 .tab {
 	overflow: hidden;
 	border: 1px solid #ccc;
@@ -116,13 +140,65 @@ var style_sheet =
 	border-top: none;
 }
 `
-var calendar_scripts = ['https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/tui-calendar.js',
-						'https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/tui-code-snippet.js',
-						'https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/tui-date-picker.js',
-						'https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/tui-time-picker.js'];
+function getDataAction(target) {
+        return target.dataset ? target.dataset.action : target.getAttribute('data-action');
+    }
+    function setRenderRangeText() {
+        var renderRange = document.getElementById('renderRange');
+        var options = cal.getOptions();
+        var viewName = cal.getViewName();
+
+        var html = [];
+        if (viewName === 'day') {
+            html.push(currentCalendarDate('YYYY.MM.DD'));
+        } else if (viewName === 'month' &&
+            (!options.month.visibleWeeksCount || options.month.visibleWeeksCount > 4)) {
+            html.push(currentCalendarDate('YYYY.MM'));
+        } else {
+            html.push(moment(cal.getDateRangeStart().getTime()).format('YYYY.MM.DD'));
+            html.push(' ~ ');
+            html.push(moment(cal.getDateRangeEnd().getTime()).format(' MM.DD'));
+        }
+        renderRange.innerHTML = html.join('');
+    }
+function onClickNavi(e) {
+        var action = getDataAction(e.target);
+
+        switch (action) {
+            case 'move-prev':
+                cal.prev();
+                break;
+            case 'move-next':
+                cal.next();
+                break;
+            case 'move-today':
+                cal.today();
+                break;
+            default:
+                return;
+        }
+
+        setRenderRangeText();
+        //setSchedules();
+    }
+        function setEventListener() {
+        $('#menu-navi').on('click', onClickNavi);
+        //$('.dropdown-menu a[role="menuitem"]').on('click', onClickMenu);
+        //$('#lnb-calendars').on('change', onChangeCalendars);
+
+        //$('#btn-save-schedule').on('click', onNewSchedule);
+        //$('#btn-new-schedule').on('click', createNewSchedule);
+
+        //$('#dropdownMenu-calendars-list').on('click', onChangeNewScheduleCalendar);
+
+        //window.addEventListener('resize', resizeThrottled);
+    }
+
+
+var calendar_scripts = ['https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/tui-code-snippet.js',
+                        'https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/tui-calendar.js'];
 var calendar_styles = ['https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/tui-calendar.css',
-                       'https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/tui-date-picker.css',
-                       'https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/tui-time-picker.css'];
+					             'https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/icons.css']
 var custom_theme = {
 
 	// common attributes
@@ -136,7 +212,6 @@ var custom_theme = {
     'common.creationGuide.border': '1px solid #515ce6',
 
     // month header 'dayname'
-
     'month.dayname.height': '42px',
     'month.dayname.borderLeft': 'none',
     'month.dayname.paddingLeft': '8px',
@@ -173,30 +248,54 @@ var custom_theme = {
   };
 
 function openTab(evt, tab_name) {
-	var i, tabcontent, tablinks;
 
-	// Get all elements with class="tabcontent" and hide them
-	tabcontent = document.getElementsByClassName("tabcontent");
-	for (i = 0; i < tabcontent.length; i++) {
-		tabcontent[i].style.display = "none";
-	}
+    var i, tabcontent, tablinks;
 
-	// Get all elements with class="tablinks" and remove the class "active"
-	tablinks = document.getElementsByClassName("tablinks");
-	for (i = 0; i < tablinks.length; i++) {
-		tablinks[i].className = tablinks[i].className.replace(" active", "");
-	}
-	
-	// Show the current tab, and add an "active" class to the button that opened the tab
-	document.getElementById(tab_name).style.display = "block";
-	evt.currentTarget.className += " active";
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(tab_name).style.display = "block";
+    evt.currentTarget.className += " active";
+    if (tab_name === "Calendar-tab") {
+    	setEventListener();
+        setTimeout(function() {
+            var c_history = window.opener.utui.data.publish_history;
+            var today = new Date();
+            var date = today.getFullYear() + ("0" + (today.getMonth() + 1)).slice(-2) + today.getDate() + ("0" + today.getMinutes()).slice(-2) + ("0" + today.getSeconds()).slice(-2);
+            for (var save in c_history) {
+                if (+save <= +date) {
+                    cal.createSchedules([{
+                        id: save,
+                        isReadOnly: "true",
+                        calendarId: '1',
+                        title: "Version " + save,
+                        body: c_history[save][save].status || "saves",
+                        dueDateClass: '',
+                        category: "time",
+                        start: moment(save, "YYYYMMDDmmss").format(),
+                    }])
+                }
+            }
+        }, 150);
+    }
 }
 if(document.title != tool_name) {
 	document.write(page_HTML);
 	addCss(style_sheet);
 	document.title = tool_name;
 	window.status = tool_name;
-	
+
+  
 	for(i in calendar_scripts) {
 		var body = document.getElementsByTagName("body")[0];
 		var c_script = document.createElement("script");
@@ -211,6 +310,9 @@ if(document.title != tool_name) {
     	cal = new tui.Calendar('#calendar', {
         	defaultView: 'month',
         	theme: custom_theme,
+        	useDetailPopup:true,
+        	disableClick:true,
+        	isReadOnly:true,
         	usageStatistics: false
     	});
     },1000);
@@ -253,4 +355,3 @@ for (test in historyBlob) {
  		appendData(test2);
 }
 console.log(c_history);
-
