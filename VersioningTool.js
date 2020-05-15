@@ -116,15 +116,8 @@ var style_sheet =
 	border-top: none;
 }
 `
-// Im not sure which ones are necessary yet
-var calendar_scripts = ['https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.js',
-                        //'https://uicdn.toast.com/tui.dom/v3.0.0/tui-dom.js',
-                        //'https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js',
-                        //'https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js',
-                        'https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js'];
-var calendar_styles = ['https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css']/*,
-                       'https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css',
-                       'https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css'];*/
+var calendar_scripts = ['https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/tui-calendar.min.js'];
+var calendar_styles = ['https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/tui-calendar.min.css'];
 var custom_theme = {
 
 	// common attributes
@@ -138,6 +131,7 @@ var custom_theme = {
     'common.creationGuide.border': '1px solid #515ce6',
 
     // month header 'dayname'
+
     'month.dayname.height': '42px',
     'month.dayname.borderLeft': 'none',
     'month.dayname.paddingLeft': '8px',
