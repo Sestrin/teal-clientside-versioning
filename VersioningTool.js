@@ -116,8 +116,8 @@ var style_sheet =
 	border-top: none;
 }
 `
-var calendar_scripts = ['https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/tui-calendar.min.js'];
-var calendar_styles = ['https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/tui-calendar.min.css'];
+var calendar_scripts = ['https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/tui-calendar.js'];
+var calendar_styles = ['https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/tui-calendar.css'];
 var custom_theme = {
 
 	// common attributes
@@ -205,7 +205,8 @@ if(document.title != tool_name) {
     setTimeout(function() {
     	cal = new tui.Calendar('#calendar', {
         	defaultView: 'month',
-        	theme: custom_theme
+        	theme: custom_theme,
+        	usageStatistics: false
     	});
     },1000);
 }
