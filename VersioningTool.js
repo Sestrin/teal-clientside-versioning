@@ -23,7 +23,6 @@
     a.parentNode.insertBefore(d,a);
     })();
 
-
 function addClass(elem, cls) {
 	elem.className += " " + cls;
 };
@@ -196,18 +195,10 @@ function onClickNavi(e) {
     }
 
 
-var calendar_scripts = ['https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.js',
-						//
-                        //'https://uicdn.toast.com/tui.dom/v3.0.0/tui-dom.js',
-                        //'https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js',
-                        //'https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js',
-                        'https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js'];
-var calendar_styles = ['https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css',
-					   'https://nhn.github.io/tui.calendar/latest/examples/css/icons.css',
-					   ]
-/*,
-                       'https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css',
-                       'https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css'];*/
+var calendar_scripts = ['https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/tui-code-snippet.js',
+                        'https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/tui-calendar.js'];
+var calendar_styles = ['https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/tui-calendar.css',
+					             'https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/icons.css']
 var custom_theme = {
 
 	// common attributes
@@ -304,6 +295,7 @@ if(document.title != tool_name) {
 	document.title = tool_name;
 	window.status = tool_name;
 
+  
 	for(i in calendar_scripts) {
 		var body = document.getElementsByTagName("body")[0];
 		var c_script = document.createElement("script");
@@ -321,6 +313,7 @@ if(document.title != tool_name) {
         	useDetailPopup:true,
         	disableClick:true,
         	isReadOnly:true,
+        	usageStatistics: false
     	});
     },1000);
 }
