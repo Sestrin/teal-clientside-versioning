@@ -116,8 +116,13 @@ var style_sheet =
 	border-top: none;
 }
 `
-var calendar_scripts = ['https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/tui-calendar.js'];
-var calendar_styles = ['https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/tui-calendar.css'];
+var calendar_scripts = ['https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/tui-calendar.js',
+						'https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/tui-code-snippet.js',
+						'https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/tui-date-picker.js',
+						'https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/tui-time-picker.js'];
+var calendar_styles = ['https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/tui-calendar.css',
+                       'https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/tui-date-picker.css',
+                       'https://cdn.jsdelivr.net/gh/Sestrin/teal-clientside-versioning@latest/cal/tui-time-picker.css'];
 var custom_theme = {
 
 	// common attributes
