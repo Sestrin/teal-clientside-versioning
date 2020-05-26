@@ -181,8 +181,12 @@ function onClickNavi(e) {
         setRenderRangeText();
         //setSchedules();
     }
+    function onClickDiff(e) {
+        debugger;
+    }
         function setEventListener() {
         $('#menu-navi').on('click', onClickNavi);
+        $('.tui-full-calendar-popup-edit').on('click', onClickDiff);
         //$('.dropdown-menu a[role="menuitem"]').on('click', onClickMenu);
         //$('#lnb-calendars').on('change', onChangeCalendars);
 
@@ -267,7 +271,6 @@ function openTab(evt, tab_name) {
     document.getElementById(tab_name).style.display = "block";
     evt.currentTarget.className += " active";
     if (tab_name === "Calendar-tab") {
-    	setEventListener();
         setTimeout(function() {
             var c_history = window.opener.utui.data.publish_history;
             var today = new Date();
@@ -276,7 +279,7 @@ function openTab(evt, tab_name) {
                 if (+save <= +date) {
                     cal.createSchedules([{
                         id: save,
-                        isReadOnly: "true",
+                        isReadOnly: false,
                         calendarId: '1',
                         title: "Version " + save,
                         body: c_history[save][save].status || "saves",
@@ -286,6 +289,9 @@ function openTab(evt, tab_name) {
                     }])
                 }
             }
+            setTimeout(function() {
+                setEventListener();
+            }, 150);
         }, 150);
     }
 }
@@ -312,7 +318,7 @@ if(document.title != tool_name) {
         	theme: custom_theme,
         	useDetailPopup:true,
         	disableClick:true,
-        	isReadOnly:true,
+        	isReadOnly:false,
         	usageStatistics: false
     	});
     },1000);
