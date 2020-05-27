@@ -249,6 +249,45 @@ function getDataAction(target) {
     return target.dataset ? target.dataset.action : target.getAttribute('data-action');
 }
 
+function getCalendarNumber(env) {
+    var env_string = "";
+    for(i in env) env_string += env[i].toString();
+    switch(env_string) {
+        case: "0000"
+            return 0;
+        case: "0001"
+            return 1;
+        case: "0010"
+            return 2;
+        case: "0100"
+            return 3;
+        case: "1000"
+            return 4;
+        case: "1001"
+            return 5;
+        case: "1010"
+            return 6;
+        case: "1100"
+            return 7;
+        case: "0101"
+            return 8;
+        case: "0110"
+            return 9;
+        case: "0011"
+            return 10;
+        case: "1110"
+            return 11;
+        case: "1101"
+            return 12;
+        case: "1011"
+            return 13;
+        case: "0111"
+            return 14;
+        case: "1111"
+            return 15;
+    }
+}
+
 function setRenderRangeText() {
     var renderRange = document.getElementById('renderRange');
     var options = cal.getOptions();
@@ -439,17 +478,21 @@ function openTab(evt, tab_name) {
             var date = today.getFullYear() + ("0" + (today.getMonth() + 1)).slice(-2) + today.getDate() + ("0" + today.getMinutes()).slice(-2) + ("0" + today.getSeconds()).slice(-2);
             for (var save in c_history) {
                 if (+save <= +date) {
-                    cal.createSchedules([{
-                        id: save,
-                        isReadOnly: false,
-                        calendarId: '1',
-                        title: "Version " + save,
-                        body: c_history[save][save].status || "saves",
-                        dueDateClass: '',
-                        category: "time",
-                        start: moment(save, "YYYYMMDDhhmm").format(),
-                        //end: moment(save + 1500, "YYYYMMDDhhmm").format()
-                    }])
+                    //This means the publish was to the dev or equivalent environment
+                    if(c_history[save][save].status.indexOf(env[0]) != -1) {
+                        cal.createSchedules([{
+                            id: save,
+                            isReadOnly: false,
+                            calendarId: '1',
+                            title: "Version " + save,
+                            body: c_history[save][save].status || "saves",
+                            dueDateClass: '',
+                            category: "time",
+                            start: moment(save, "YYYYMMDDhhmm").format(),
+                            //end: moment(save + 1500, "YYYYMMDDhhmm").format()
+                        }]) 
+                    }
+
                 }
             }
         setRenderRangeText()
@@ -495,6 +538,8 @@ if (document.title != tool_name) {
         })
     },1000);
 }
+var env = ['dev', 'qa', 'prod', 'custom'];
+var env_calendars;
 
 var c_history = window.opener.utui.data.publish_history;
 prev = 202003031545; //any version without periods
