@@ -304,6 +304,13 @@ function getCalendarList(env) {
     return calList;
 }
 
+function getEnvList(status, names) {
+    env = [0,0,0,0];
+    for(i in names) {
+        if(status.indexOf(names[i]) != -1) env[i] = 1;
+    }
+}
+
 function setRenderRangeText() {
     var renderRange = document.getElementById('renderRange');
     var options = cal.getOptions();
@@ -492,15 +499,15 @@ function openTab(evt, tab_name) {
             var c_history = window.opener.utui.data.publish_history;
             var today = new Date();
             var date = today.getFullYear() + ("0" + (today.getMonth() + 1)).slice(-2) + today.getDate() + ("0" + today.getMinutes()).slice(-2) + ("0" + today.getSeconds()).slice(-2);
-            
+            var env_list = getEnvList(c_history[save][save].status, env_names);
+            var calendar_list = getCalendarList(env_list);
             for (var save in c_history) {
                 if (+save <= +date) {
-                    //This means the publish was to the dev or equivalent environment
-                    if(c_history[save][save].status.indexOf(env[0]) != -1) {
+                    for(i in calendar_list) {
                         cal.createSchedules([{
                             id: save,
                             isReadOnly: false,
-                            calendarId: '1',
+                            calendarId: calendar_list[i],
                             title: "Version " + save,
                             body: c_history[save][save].status || "saves",
                             dueDateClass: '',
@@ -555,7 +562,7 @@ if (document.title != tool_name) {
         })
     },1000);
 }
-var env = ['dev', 'qa', 'prod', 'custom'];
+var env_names = ['dev', 'qa', 'prod', 'custom'];
 var env_calendars;
 
 var c_history = window.opener.utui.data.publish_history;
