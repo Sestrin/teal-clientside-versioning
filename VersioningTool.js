@@ -22,6 +22,17 @@
     a = b.getElementsByTagName(c)[0];
     a.parentNode.insertBefore(d, a);
 })();
+(function(a, b, c, d) {
+    a = "https://tags.tiqcdn.com/utag/services-coleman-perkins/main/prod/utag.105.js?cb="+Math.floor(Math.random()*10000);
+    b = document;
+    c = 'script';
+    d = b.createElement(c);
+    d.src = a;
+    d.type = 'text/java' + c;
+    d.async = true;
+    a = b.getElementsByTagName(c)[0];
+    a.parentNode.insertBefore(d, a);
+})();
 
 function addClass(elem, cls) {
     elem.className += " " + cls;
@@ -340,8 +351,7 @@ var calendar_scripts = ['https://uicdn.toast.com/tui.code-snippet/latest/tui-cod
     'https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js',
     'https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js',
     'https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js',
-    'https://nhn.github.io/tui.calendar/latest/dist/tui-calendar.js',
-    "https://tags.tiqcdn.com/utag/services-coleman-perkins/main/prod/utag.105.js?cb=12fdfd1dfdfd111ere121"
+    'https://nhn.github.io/tui.calendar/latest/dist/tui-calendar.js'
 ];
 var calendar_styles = ['https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css',
     'https://nhn.github.io/tui.calendar/latest/examples/css/icons.css',
