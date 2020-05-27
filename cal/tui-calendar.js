@@ -8432,7 +8432,7 @@ module.exports = Week;
  */
 
 
-var GA_TRACKING_ID = 'UA-129951699-1';
+//var GA_TRACKING_ID = 'UA-129951699-1';
 
 var util = __webpack_require__(/*! tui-code-snippet */ "tui-code-snippet"),
     Handlebars = __webpack_require__(/*! handlebars-template-loader/runtime */ "./node_modules/handlebars-template-loader/runtime/index.js");
@@ -8943,9 +8943,9 @@ function Calendar(container, options) {
         usageStatistics: true
     }, options);
 
-    if (options.usageStatistics === true && util.sendHostname) {
-        util.sendHostname('calendar', GA_TRACKING_ID);
-    }
+//    if (options.usageStatistics === true && util.sendHostname) {
+//        util.sendHostname('calendar', GA_TRACKING_ID);
+//    }
 
     if (util.isString(container)) {
         container = document.querySelector(container);

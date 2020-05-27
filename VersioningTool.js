@@ -323,6 +323,14 @@ function onClickNavi(e) {
 
         refreshScheduleVisibility();
     }
+    function onClickDiff(e) {
+        debugger;
+    }
+        function setEventListener() {
+        $('#menu-navi').on('click', onClickNavi);
+        $('.tui-full-calendar-popup-edit').on('click', onClickDiff);
+        //$('.dropdown-menu a[role="menuitem"]').on('click', onClickMenu);
+        //$('#lnb-calendars').on('change', onChangeCalendars);
 
 function setEventListener() {
     $('#menu-navi').on('click', onClickNavi);
@@ -421,7 +429,9 @@ function openTab(evt, tab_name) {
     document.getElementById(tab_name).style.display = "block";
     evt.currentTarget.className += " active";
     if (tab_name === "Calendar-tab") {
+
         setEventListener();
+
         setTimeout(function() {
             var c_history = window.opener.utui.data.publish_history;
             var today = new Date();
@@ -442,6 +452,9 @@ function openTab(evt, tab_name) {
                 }
             }
         setRenderRangeText()
+            setTimeout(function() {
+                setEventListener();
+            }, 150);
         }, 150);
     }
 }
@@ -468,9 +481,17 @@ if (document.title != tool_name) {
         	theme: custom_theme,
         	useDetailPopup:true,
         	disableClick:true,
-        	isReadOnly:true,
+        	isReadOnly:false,
         	usageStatistics: false
     	});
+        cal.on({
+            'clickSchedule': function(e) {
+                console.log('clickSchedule', e);
+            },
+            'beforeUpdateSchedule': function(e) {
+                console.log('beforeUpdateSchedule', e);
+            }
+        })
     },1000);
 }
 
