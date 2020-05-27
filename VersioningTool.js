@@ -287,6 +287,22 @@ function getCalendarNumber(env) {
             return 15;
     }
 }
+function getCalendarList(env) {
+    var calList = [];
+    for(i in env) env_string += env[i].toString();
+    if(env[0] == 1) {
+        calList = calList.concat([4,5,6,7,11,12,13,15]);
+    }
+    if(env[1] == 1) {
+        calList = calList.concat([3,7,8,9,11,12,14,15]);
+    }
+    if(env[2] == 1) {
+        calList = calList.concat([2,6,9,10,11,13,14,15]);
+    }
+    if(env[3] == 1) {
+        calList = calList.concat([1,5,8,10,11,12,13,15]);
+    }
+}
 
 function setRenderRangeText() {
     var renderRange = document.getElementById('renderRange');
@@ -476,6 +492,7 @@ function openTab(evt, tab_name) {
             var c_history = window.opener.utui.data.publish_history;
             var today = new Date();
             var date = today.getFullYear() + ("0" + (today.getMonth() + 1)).slice(-2) + today.getDate() + ("0" + today.getMinutes()).slice(-2) + ("0" + today.getSeconds()).slice(-2);
+            
             for (var save in c_history) {
                 if (+save <= +date) {
                     //This means the publish was to the dev or equivalent environment
