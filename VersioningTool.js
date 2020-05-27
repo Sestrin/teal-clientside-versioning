@@ -309,6 +309,7 @@ function getEnvList(status, names) {
     for(i in names) {
         if(status.indexOf(names[i]) != -1) env[i] = 1;
     }
+    return env;
 }
 
 function setRenderRangeText() {
