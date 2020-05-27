@@ -321,6 +321,14 @@ if(document.title != tool_name) {
         	isReadOnly:false,
         	usageStatistics: false
     	});
+        cal.on({
+            'clickSchedule': function(e) {
+                console.log('clickSchedule', e);
+            },
+            'beforeUpdateSchedule': function(e) {
+                console.log('beforeUpdateSchedule', e);
+            }
+        })
     },1000);
 }
 
