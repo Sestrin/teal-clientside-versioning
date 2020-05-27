@@ -489,9 +489,15 @@ function openTab(evt, tab_name) {
             var c_history = window.opener.utui.data.publish_history;
             var today = new Date();
             var date = today.getFullYear() + ("0" + (today.getMonth() + 1)).slice(-2) + today.getDate() + ("0" + today.getMinutes()).slice(-2) + ("0" + today.getSeconds()).slice(-2);
+            var status;
             for (var save in c_history) {
-                if (+save <= +date) {
-                    var env_list = getEnvList(c_history[save][save].status, env_names);
+                if (+save >= (+date - 1000000)) {
+                    if(typeof c_history[save][save].status != "undefined") {
+                        status = c_history[save][save].status;
+                    } else {
+                        status = "saves";
+                    }
+                    var env_list = getEnvList(status, env_names);
                     var calendar_list = getCalendarList(env_list);
                     for(i in calendar_list) {
                         cal.createSchedules([{
@@ -499,7 +505,7 @@ function openTab(evt, tab_name) {
                             isReadOnly: false,
                             calendarId: calendar_list[i],
                             title: "Version " + save,
-                            body: c_history[save][save].status || "saves",
+                            body: status,
                             dueDateClass: '',
                             category: "time",
                             start: moment(save, "YYYYMMDDhhmm").format(),
@@ -510,9 +516,6 @@ function openTab(evt, tab_name) {
                 }
             }
         setRenderRangeText()
-            setTimeout(function() {
-                setEventListener();
-            }, 150);
         }, 150);
     }
 }
