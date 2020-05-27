@@ -331,6 +331,7 @@ function onClickNavi(e) {
         $('.tui-full-calendar-popup-edit').on('click', onClickDiff);
         //$('.dropdown-menu a[role="menuitem"]').on('click', onClickMenu);
         //$('#lnb-calendars').on('change', onChangeCalendars);
+}
 
 function setEventListener() {
     $('#menu-navi').on('click', onClickNavi);
