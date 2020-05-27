@@ -307,7 +307,7 @@ function getCalendarList(env) {
 function getEnvList(status, names) {
     env = [0,0,0,0];
     for(i in names) {
-        if(status.indexOf(names[i]) != -1) env[i] = 1;
+        if(status && status.indexOf(names[i]) != -1) env[i] = 1;
     }
     return env;
 }
