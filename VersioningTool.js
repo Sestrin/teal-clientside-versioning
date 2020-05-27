@@ -326,25 +326,14 @@ function onClickNavi(e) {
     function onClickDiff(e) {
         debugger;
     }
-        function setEventListener() {
+function setEventListener() {
         $('#menu-navi').on('click', onClickNavi);
         $('.tui-full-calendar-popup-edit').on('click', onClickDiff);
+        $('#lnb-calendars').on('change', onChangeCalendars);
         //$('.dropdown-menu a[role="menuitem"]').on('click', onClickMenu);
         //$('#lnb-calendars').on('change', onChangeCalendars);
 }
 
-function setEventListener() {
-    $('#menu-navi').on('click', onClickNavi);
-    //$('.dropdown-menu a[role="menuitem"]').on('click', onClickMenu);
-    $('#lnb-calendars').on('change', onChangeCalendars);
-
-    //$('#btn-save-schedule').on('click', onNewSchedule);
-    //$('#btn-new-schedule').on('click', createNewSchedule);
-
-    //$('#dropdownMenu-calendars-list').on('click', onChangeNewScheduleCalendar);
-
-    //window.addEventListener('resize', resizeThrottled);
-}
 
 var calendar_scripts = ['https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.js',
     'https://uicdn.toast.com/tui.dom/v3.0.0/tui-dom.js',
