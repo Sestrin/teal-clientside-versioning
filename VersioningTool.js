@@ -508,7 +508,7 @@ function openTab(evt, tab_name) {
                     } else {
                         status = "saves";
                     }
-                    var env_list = getEnvList(c_history[save][save].status, env_names);
+                    var env_list = getEnvList(status, env_names);
                     var calendar_list = getCalendarList(env_list);
                     for(i in calendar_list) {
                         cal.createSchedules([{
@@ -527,9 +527,6 @@ function openTab(evt, tab_name) {
                 }
             }
         setRenderRangeText()
-            setTimeout(function() {
-                setEventListener();
-            }, 150);
         }, 150);
     }
 }
