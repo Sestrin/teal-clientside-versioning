@@ -175,7 +175,7 @@ var style_sheet =
 }
 .lnb-calendars-item{
 padding-top: 6px;
- padding-bottom: 6px;  
+ padding-bottom: 6px;
 }
 #lnb {
     font-family: 'Noto Sans';
@@ -337,7 +337,6 @@ function setEventListener() {
     //window.addEventListener('resize', resizeThrottled);
 }
 
-
 var calendar_scripts = ['https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.js',
     'https://uicdn.toast.com/tui.dom/v3.0.0/tui-dom.js',
     'https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js',
@@ -446,6 +445,7 @@ function openTab(evt, tab_name) {
         }, 150);
     }
 }
+
 if (document.title != tool_name) {
     document.write(page_HTML);
     addCss(style_sheet);
@@ -463,18 +463,16 @@ if (document.title != tool_name) {
     }
     var cal;
     setTimeout(function() {
-        cal = new tui.Calendar('#calendar', {
-            defaultView: 'month',
-            theme: custom_theme,
-            useDetailPopup: true,
-            disableClick: true,
-            isReadOnly: false,
-        });
-    }, 1000);
+    	cal = new tui.Calendar('#calendar', {
+        	defaultView: 'month',
+        	theme: custom_theme,
+        	useDetailPopup:true,
+        	disableClick:true,
+        	isReadOnly:true,
+        	usageStatistics: false
+    	});
+    },1000);
 }
-
-
-
 
 var c_history = window.opener.utui.data.publish_history;
 prev = 202003031545; //any version without periods
