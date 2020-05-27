@@ -289,7 +289,6 @@ function getCalendarNumber(env) {
 }
 function getCalendarList(env) {
     var calList = [];
-    for(i in env) env_string += env[i].toString();
     if(env[0] == 1) {
         calList = calList.concat([4,5,6,7,11,12,13,15]);
     }
@@ -302,6 +301,7 @@ function getCalendarList(env) {
     if(env[3] == 1) {
         calList = calList.concat([1,5,8,10,11,12,13,15]);
     }
+    return calList;
 }
 
 function setRenderRangeText() {
