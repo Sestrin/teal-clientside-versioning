@@ -307,12 +307,13 @@ function getCalendarList(env) {
     return calList;
 }
 
-function getEnvList(status, names) {
-    env = [0,0,0,0];
-    for(i in names) {
-        if(status && status.indexOf(names[i]) != -1) env[i] = 1;
+function getEnvList(status, aliases) {
+    var env = status.split(",");
+    var env_output = [];
+    for(i in env) {
+        env_output.push(aliases[env[i]].display_name);
     }
-    return env;
+    return env_output;
 }
 
 function setRenderRangeText() {
@@ -428,21 +429,21 @@ function setEventListener() {
                     } else {
                         status = "saves";
                     }
-                    var env_list = getEnvList(status, env_names);
-                    var calendar_list = getCalendarList(env_list);
+                    var env_list = getEnvList(status, aliases);
                     for(i in CalendarList) {
-
-                        cal.createSchedules([{
-                            id: save,
-                            isReadOnly: false,
-                            calendarId: i,
-                            title: "Version " + save,
-                            body: status,
-                            dueDateClass: '',
-                            category: "time",
-                            start: moment(save, "YYYYMMDDhhmm").format(),
-                            end: moment(save + 1500, "YYYYMMDDhhmm").format()
-                        }])
+                        if(CalendarList[i].name.split(",").some(r=> env_list.includes(r))) {
+                            cal.createSchedules([{
+                                id: save,
+                                isReadOnly: false,
+                                calendarId: i,
+                                title: "Version " + save,
+                                body: status,
+                                dueDateClass: '',
+                                category: "time",
+                                start: moment(save, "YYYYMMDDhhmm").format(),
+                                end: moment(save + 1500, "YYYYMMDDhhmm").format()
+                            }])
+                        }
                     }
 
                 }
@@ -596,6 +597,18 @@ if (document.title != tool_name) {
     },1000);
 }
 
+//copied from utag.105
+var aliases = window.opener.utui.targets.getAliasList() || [];
+window.environments = [];
+for (var x in aliases) {
+    if (aliases[x].alias_name.length > 0) {
+        environments.push(aliases[x].alias_name);
+    } else {
+        environments.push(aliases[x].display_name);
+    }
+}
+
+var alias_key = Object.keys(aliases);
 var alias_names = [];
 for(i in aliases) {
     alias_names.push(aliases[i].display_name);
