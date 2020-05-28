@@ -364,11 +364,10 @@ function onClickNavi(e) {
         var calendar_number;
         var calendar_name = "";
         var calendar_array = [0,0,0,0];
-        var alias_names = Object.keys(aliases);
         var buttons = this.lastElementChild.children;
         for(i = 0; i < buttons.length; i++) {
             if(+buttons[i].children[0].children[0].children[0].children[0].checked) {
-                calendar_name += aliases[alias_names[i]].display_name + ",";
+                calendar_name += alias_names[i] + ",";
             }
         };
         calendar_name = calendar_name.substring(0, calendar_name.length - 1); //chop off last comma
@@ -431,11 +430,12 @@ function setEventListener() {
                     }
                     var env_list = getEnvList(status, env_names);
                     var calendar_list = getCalendarList(env_list);
-                    for(i in calendar_list) {
+                    for(i in CalendarList) {
+
                         cal.createSchedules([{
                             id: save,
                             isReadOnly: false,
-                            calendarId: calendar_list[i],
+                            calendarId: i,
                             title: "Version " + save,
                             body: status,
                             dueDateClass: '',
@@ -595,9 +595,11 @@ if (document.title != tool_name) {
         })
     },1000);
 }
-var env_names = ['dev', 'qa', 'prod', 'custom'];
-var env_calendars;
 
+var alias_names = [];
+for(i in aliases) {
+    alias_names.push(aliases[i].display_name);
+}
 var c_history = window.opener.utui.data.publish_history;
 prev = 202003031545; //any version without periods
 post = 202005061643; //any later version without periods
