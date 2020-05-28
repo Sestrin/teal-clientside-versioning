@@ -252,6 +252,69 @@ function getDataAction(target) {
     return target.dataset ? target.dataset.action : target.getAttribute('data-action');
 }
 
+function getCalendarNumber(env) {
+    var env_string = "";
+    for(i in env) env_string += env[i].toString();
+    switch(env_string) {
+        case "0000":
+            return 0;
+        case "0001":
+            return 1;
+        case "0010":
+            return 2;
+        case "0100":
+            return 3;
+        case "1000":
+            return 4;
+        case "1001":
+            return 5;
+        case "1010":
+            return 6;
+        case "1100":
+            return 7;
+        case "0101":
+            return 8;
+        case "0110":
+            return 9;
+        case "0011":
+            return 10;
+        case "1110":
+            return 11;
+        case "1101":
+            return 12;
+        case "1011":
+            return 13;
+        case "0111":
+            return 14;
+        case "1111":
+            return 15;
+    }
+}
+function getCalendarList(env) {
+    var calList = [];
+    if(env[0] == 1) {
+        calList = calList.concat([4,5,6,7,11,12,13,15]);
+    }
+    if(env[1] == 1) {
+        calList = calList.concat([3,7,8,9,11,12,14,15]);
+    }
+    if(env[2] == 1) {
+        calList = calList.concat([2,6,9,10,11,13,14,15]);
+    }
+    if(env[3] == 1) {
+        calList = calList.concat([1,5,8,10,11,12,13,15]);
+    }
+    return calList;
+}
+
+function getEnvList(status, names) {
+    env = [0,0,0,0];
+    for(i in names) {
+        if(status && status.indexOf(names[i]) != -1) env[i] = 1;
+    }
+    return env;
+}
+
 function setRenderRangeText() {
     var renderRange = document.getElementById('renderRange');
     var options = cal.getOptions();
@@ -426,25 +489,33 @@ function openTab(evt, tab_name) {
             var c_history = window.opener.utui.data.publish_history;
             var today = new Date();
             var date = today.getFullYear() + ("0" + (today.getMonth() + 1)).slice(-2) + today.getDate() + ("0" + today.getMinutes()).slice(-2) + ("0" + today.getSeconds()).slice(-2);
+            var status;
             for (var save in c_history) {
-                if (+save <= +date) {
-                    cal.createSchedules([{
-                        id: save,
-                        isReadOnly: false,
-                        calendarId: '1',
-                        title: "Version " + save,
-                        body: c_history[save][save].status || "saves",
-                        dueDateClass: '',
-                        category: "time",
-                        start: moment(save, "YYYYMMDDhhmm").format(),
-                        //end: moment(save + 1500, "YYYYMMDDhhmm").format()
-                    }])
+                if (+save >= (+date - 1000000)) {
+                    if(typeof c_history[save][save].status != "undefined") {
+                        status = c_history[save][save].status;
+                    } else {
+                        status = "saves";
+                    }
+                    var env_list = getEnvList(status, env_names);
+                    var calendar_list = getCalendarList(env_list);
+                    for(i in calendar_list) {
+                        cal.createSchedules([{
+                            id: save,
+                            isReadOnly: false,
+                            calendarId: calendar_list[i],
+                            title: "Version " + save,
+                            body: status,
+                            dueDateClass: '',
+                            category: "time",
+                            start: moment(save, "YYYYMMDDhhmm").format(),
+                            //end: moment(save + 1500, "YYYYMMDDhhmm").format()
+                        }]) 
+                    }
+
                 }
             }
         setRenderRangeText()
-            setTimeout(function() {
-                setEventListener();
-            }, 150);
         }, 150);
     }
 }
@@ -500,6 +571,8 @@ if (document.title != tool_name) {
         })
     },1000);
 }
+var env_names = ['dev', 'qa', 'prod', 'custom'];
+var env_calendars;
 
 var c_history = window.opener.utui.data.publish_history;
 prev = 202003031545; //any version without periods
