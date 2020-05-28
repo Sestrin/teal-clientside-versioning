@@ -419,7 +419,35 @@ function setEventListener() {
         $('#lnb-calendars').on('change', onChangeCalendars);
         //$('.dropdown-menu a[role="menuitem"]').on('click', onClickMenu);
 }
+        function getNewPublishes(date){
+            var c_history = window.opener.utui.data.publish_history;
+            var status;
+            for (var save in c_history) {
+                if (+save >= (+date - 1000000)) {
+                    if(typeof c_history[save][save].status != "undefined") {
+                        status = c_history[save][save].status;
+                    } else {
+                        status = "saves";
+                    }
+                    var env_list = getEnvList(status, env_names);
+                    var calendar_list = getCalendarList(env_list);
+                    for(i in calendar_list) {
+                        cal.createSchedules([{
+                            id: save,
+                            isReadOnly: false,
+                            calendarId: calendar_list[i],
+                            title: "Version " + save,
+                            body: status,
+                            dueDateClass: '',
+                            category: "time",
+                            start: moment(save, "YYYYMMDDhhmm").format(),
+                            end: moment(save + 1500, "YYYYMMDDhhmm").format()
+                        }])
+                    }
 
+                }
+            }
+        }
 
 var calendar_scripts = ['https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.js',
     'https://uicdn.toast.com/tui.dom/v3.0.0/tui-dom.js',
@@ -507,36 +535,11 @@ function openTab(evt, tab_name) {
         setEventListener();
 
         setTimeout(function() {
-            var c_history = window.opener.utui.data.publish_history;
-            var today = new Date();
-            var date = today.getFullYear() + ("0" + (today.getMonth() + 1)).slice(-2) + today.getDate() + ("0" + today.getMinutes()).slice(-2) + ("0" + today.getSeconds()).slice(-2);
-            var status;
-            for (var save in c_history) {
-                if (+save >= (+date - 1000000)) {
-                    if(typeof c_history[save][save].status != "undefined") {
-                        status = c_history[save][save].status;
-                    } else {
-                        status = "saves";
-                    }
-                    var env_list = getEnvList(status, env_names);
-                    var calendar_list = getCalendarList(env_list);
-                    for(i in calendar_list) {
-                        cal.createSchedules([{
-                            id: save,
-                            isReadOnly: false,
-                            calendarId: calendar_list[i],
-                            title: "Version " + save,
-                            body: status,
-                            dueDateClass: '',
-                            category: "time",
-                            start: moment(save, "YYYYMMDDhhmm").format(),
-                            //end: moment(save + 1500, "YYYYMMDDhhmm").format()
-                        }]) 
-                    }
+        var today = new Date();
+        var date = today.getFullYear() + ("0" + (today.getMonth() + 1)).slice(-2) + today.getDate() + ("0" + today.getMinutes()).slice(-2) + ("0" + today.getSeconds()).slice(-2);
+        getNewPublishes(date);
 
-                }
-            }
-        setRenderRangeText()
+        setRenderRangeText();
         }, 150);
     }
 }
