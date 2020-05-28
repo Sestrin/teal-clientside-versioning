@@ -361,7 +361,28 @@ function onClickNavi(e) {
         var calendarElements = Array.prototype.slice.call(document.querySelectorAll('#calendarList input'));
         var allCheckedCalendars = true;
 
-        if (calendarId === 'all') {
+        var calendar_number;
+        var calendar_name = "";
+        var calendar_array = [0,0,0,0];
+        var alias_names = Object.keys(aliases);
+        var buttons = this.lastElementChild.children;
+        for(i = 0; i < buttons.length; i++) {
+            if(+buttons[i].children[0].children[0].children[0].children[0].checked) {
+                calendar_name += aliases[alias_names[i]].display_name + ",";
+            }
+        };
+        calendar_name = calendar_name.substring(0, calendar_name.length - 1); //chop off last comma
+        calendar_number = getCalendarNumber(calendar_array);
+
+        CalendarList.forEach(function(calendar) {
+            if(calendar_name != calendar.name) {
+                calendar.checked = false;
+            } else {
+                calendar.checked = true;
+            }
+        });
+        //CalendarList[calendar_number].checked = true;
+        /*if (calendarId === 'all') {
             allCheckedCalendars = checked;
 
             calendarElements.forEach(function(input) {
@@ -385,7 +406,7 @@ function onClickNavi(e) {
             } else {
                 viewAll.checked = false;
             }
-        }
+        }*/
 
         refreshScheduleVisibility();
     }
