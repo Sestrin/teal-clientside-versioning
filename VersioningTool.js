@@ -53,10 +53,23 @@ function addCss(rule, load) {
         document.getElementsByTagName("head")[0].appendChild(cssNode);
     }
 }
-
+//prod,qa,dev,custom,custom,custom
+var colors= {"prod":"#349AEA","qa":"#FFC300","dev":"#D6573A","custom":"#B66DFA","custom":"#8E25F1"};
+let new_envObj = JSON.parse(JSON.stringify(window.opener.utui.targets.getAliasList()));
+for (var i in new_envObj){
+    for (var x in colors){
+        if(x===i){
+            new_envObj[i]["color"] = colors[x];
+            delete colors[x];
+        }
+        else if((x!=="dev"&&x!=="qa"&&x!=="prod")&&(i!=="dev"&&i!=="qa"&&i!=="prod")){
+            new_envObj[i]["color"] = colors[x];
+            delete colors[x]
+        }
+    }
+}
 var tool_name = 'Versions Tool';
-var page_HTML =
-    `
+var page_HTML =`
 <html>
     <head>
    <title>Versions Tool</title>
@@ -79,7 +92,6 @@ var page_HTML =
    <div id="Calendar-tab" class="tabcontent">
       <div id="lnb">
          <div id="lnb-calendars" class="lnb-calendars">
-            <div>
                <div class="lnb-calendars-item">
                   <label>
                   <input class="tui-full-calendar-checkbox-square" type="checkbox" value="all" checked="">
@@ -87,17 +99,7 @@ var page_HTML =
                   <strong>View all</strong>
                   </label>
                </div>
-            </div>
             <div id="calendarList" class="lnb-calendars-d1">
-               <div class="fake-button">
-                    <div class="lnb-calendars-item"><label><input type="checkbox" class="tui-full-calendar-checkbox-round" value="1" checked=""><span style="border-color: #349AEA; background-color: #349AEA;"></span><span>Prod</span></label></div>
-               </div>
-               <div class="fake-button">
-                    <div class="lnb-calendars-item"><label><input type="checkbox" class="tui-full-calendar-checkbox-round" value="2" checked=""><span style="border-color: #FFC300; background-color: #FFC300;"></span><span>QA</span></label></div>
-               </div>
-               <div class="fake-button">
-                    <div class="lnb-calendars-item"><label><input type="checkbox" class="tui-full-calendar-checkbox-round" value="3" checked=""><span style="border-color: #D6573A; background-color: #D6573A;"></span><span>DEV</span></label></div>
-               </div>
             </div>
          </div>
       </div>
@@ -124,16 +126,6 @@ var page_HTML =
    <div id="Extensions" class="tabcontent">
       <h3>Extensions</h3>
       <p>Extensions extend your usefullness.</p>
-   </div>
-   <div id="Coleman" class="tabcontent">
-      <h3>Coleman</h3>
-      <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" class="app-icon app-icon--medium" data-identifyElement="248">
-         <g fill="#FF5959" fill-rule="evenodd" data-identifyElement="249">
-            <path fill-opacity=".3" stroke="#FF5959" stroke-width="4.56" d="M56 29.693c0-14.691-11.864-26.6-26.5-26.6S3 15.002 3 29.693c0 14.692 11.864 26.6 26.5 26.6S56 44.385 56 29.693" data-identifyElement="250"></path>
-            <path fill-rule="nonzero" d="M16.327 41.214c6.283-8.392 20.063-8.392 26.346 0a2.286 2.286 0 01-.451 3.192 2.266 2.266 0 01-3.18-.453c-4.466-5.964-14.618-5.964-19.083 0a2.266 2.266 0 01-3.18.453 2.286 2.286 0 01-.452-3.192z" data-identifyElement="251"></path>
-            <path d="M43.696 23.9c0-2.624-2.117-4.75-4.732-4.75-2.612 0-4.732 2.126-4.732 4.75 0 2.622 2.12 4.75 4.732 4.75 2.615 0 4.732-2.128 4.732-4.75m-18.928 0c0-2.624-2.118-4.75-4.732-4.75-2.612 0-4.732 2.126-4.732 4.75 0 2.622 2.12 4.75 4.732 4.75 2.614 0 4.732-2.128 4.732-4.75" data-identifyElement="252"></path>
-         </g>
-      </svg>
    </div>
 </body>
 </html>
@@ -231,7 +223,7 @@ input[type='checkbox'].tui-full-calendar-checkbox-round + span {
     border: 1px outset hsl(0, 0%, 85%);
     line-height: 16px;
     padding-right: 6px;
-    width: 70px;
+    width: auto;
     border-radius: 5px;
     margin-right: 12px;
     cursor: pointer;
@@ -342,7 +334,6 @@ function setEventListener() {
         $('.tui-full-calendar-popup-edit').on('click', onClickDiff);
         $('#lnb-calendars').on('change', onChangeCalendars);
         //$('.dropdown-menu a[role="menuitem"]').on('click', onClickMenu);
-        //$('#lnb-calendars').on('change', onChangeCalendars);
 }
 
 
@@ -362,7 +353,6 @@ var calendar_styles = ['https://uicdn.toast.com/tui-calendar/latest/tui-calendar
 ]
 
 var custom_theme = {
-
     // common attributes
     'common.border': '1px solid #e5e5e5',
     'common.backgroundColor': 'white',
@@ -464,6 +454,22 @@ if (document.title != tool_name) {
     addCss(style_sheet);
     document.title = tool_name;
     window.status = tool_name;
+
+    function createButton(env,color){
+        var calendar_List = document.querySelector("#calendarList"); 
+        var env_button = document.createElement("div");
+        env_button.innerHTML = `<div class="fake-button"><div class="lnb-calendars-item"><label><input type="checkbox" class="tui-full-calendar-checkbox-round" value="1" checked=""><span style="border-color: ${color}; background-color: ${color};"></span><span>${env}</span></label></div></div>`
+        calendar_List.appendChild(env_button);
+    }
+    for (var i in new_envObj){
+        let env = new_envObj[i];
+        if (env.alias_name.length > 0){
+            createButton(env.alias_name,env.color);
+        }
+        else{
+            createButton(env.display_name,env.color);
+        }
+    }
 
     for (i in calendar_scripts) {
         var body = document.getElementsByTagName("body")[0];
