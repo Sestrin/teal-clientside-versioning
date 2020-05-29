@@ -244,11 +244,11 @@ function getDataAction(target) {
     return target.dataset ? target.dataset.action : target.getAttribute('data-action');
 }
 
-function getEnvList(status, aliases) {
+function getEnvList(status, all_env) {
     var env = status.split(",");
     var env_output = [];
     for(i in env) {
-        env_output.push(aliases[env[i]].display_name);
+        env_output.push(all_anv[i].display_name);
     }
     return env_output;
 }
@@ -291,18 +291,16 @@ function onClickNavi(e) {
     setRenderRangeText();
 }
     function onChangeCalendars(e) {
-        var calendarId = e.target.value;
         var checked = e.target.checked;
         var calendarElements = Array.prototype.slice.call(document.querySelectorAll('#calendarList input'));
         var allCheckedCalendars = true;
 
         var calendar_name = "";
-        var buttons = this.lastElementChild.children;
-        for(i = 0; i < buttons.length; i++) {
-            if(+buttons[i].children[0].children[0].children[0].children[0].checked) {
-                calendar_name += alias_names[i] + ",";
+        for(var i in calendarElements) {
+            if(calendarElements[i].checked) {
+                calendar_name += calendarElements[i].value + ",";
             }
-        };
+        }
         calendar_name = calendar_name.substring(0, calendar_name.length - 1); //chop off last comma
 
         CalendarList.forEach(function(calendar) {
@@ -334,7 +332,7 @@ function setEventListener() {
                     } else {
                         status = "saves";
                     }
-                    var env_list = getEnvList(status, aliases);
+                    var env_list = status.split(",");
                     for(i in CalendarList) {
                         if(CalendarList[i].name.split(",").some(r=> env_list.includes(r))) {
                             cal.createSchedules([{
@@ -446,19 +444,19 @@ if (document.title != tool_name) {
     document.title = tool_name;
     window.status = tool_name;
 
-    function createButton(env,color){
+    function createButton(env, env_name, color){
         var calendar_List = document.querySelector("#calendarList"); 
         var env_button = document.createElement("div");
-        env_button.innerHTML = `<div class="fake-button"><div class="lnb-calendars-item"><label><input type="checkbox" class="tui-full-calendar-checkbox-round" value="1" checked=""><span style="border-color: ${color}; background-color: ${color};"></span><span>${env}</span></label></div></div>`
+        env_button.innerHTML = `<div class="fake-button"><div class="lnb-calendars-item"><label><input type="checkbox" class="tui-full-calendar-checkbox-round" value=${env} checked=""><span style="border-color: ${color}; background-color: ${color};"></span><span>${env_name}</span></label></div></div>`
         calendar_List.appendChild(env_button);
     }
     for (var i in new_envObj){
         let env = new_envObj[i];
         if (env.alias_name.length > 0){
-            createButton(env.alias_name,env.color);
+            createButton(i, env.alias_name, env.color);
         }
         else{
-            createButton(env.display_name,env.color);
+            createButton(i, env.display_name, env.color);
         }
     }
 
