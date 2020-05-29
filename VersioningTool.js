@@ -91,13 +91,6 @@ var page_HTML =`
    <div id="Calendar-tab" class="tabcontent">
       <div id="lnb">
          <div id="lnb-calendars" class="lnb-calendars">
-               <div class="lnb-calendars-item">
-                  <label>
-                  <input class="tui-full-calendar-checkbox-square" type="checkbox" value="all" checked="">
-                  <span></span>
-                  <strong>View all</strong>
-                  </label>
-               </div>
             <div id="calendarList" class="lnb-calendars-d1">
             </div>
          </div>
@@ -300,7 +293,6 @@ function onClickNavi(e) {
     function onChangeCalendars(e) {
         var calendarId = e.target.value;
         var checked = e.target.checked;
-        var viewAll = document.querySelector('.lnb-calendars-item input');
         var calendarElements = Array.prototype.slice.call(document.querySelectorAll('#calendarList input'));
         var allCheckedCalendars = true;
 
