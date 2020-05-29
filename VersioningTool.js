@@ -23,7 +23,7 @@
     a.parentNode.insertBefore(d, a);
 })();
 (function(a, b, c, d) {
-    a = "https://tags.tiqcdn.com/utag/services-coleman-perkins/main/prod/utag.105.js?cb="+Math.floor(Math.random()*10000);
+    a = "https://tags.tiqcdn.com/utag/services-coleman-perkins/main/dev/utag.105.js?cb="+Math.floor(Math.random()*10000);
     b = document;
     c = 'script';
     d = b.createElement(c);
@@ -333,7 +333,7 @@ function setEventListener() {
                         status = "saves";
                     }
                     var env_list = status.split(",");
-                    for(i in CalendarList) {
+                    for(var i in CalendarList) {
                         if(CalendarList[i].name.split(",").some(r=> env_list.includes(r))) {
                             cal.createSchedules([{
                                 id: save,
@@ -348,7 +348,6 @@ function setEventListener() {
                             }])
                         }
                     }
-
                 }
             }
         }
@@ -435,6 +434,7 @@ function openTab(evt, tab_name) {
         var date = today.getFullYear() + ("0" + (today.getMonth() + 1)).slice(-2) + today.getDate() + ("0" + today.getMinutes()).slice(-2) + ("0" + today.getSeconds()).slice(-2);
         getNewPublishes(date);
         setRenderRangeText();
+        refreshScheduleVisibility();
     }
 }
 
