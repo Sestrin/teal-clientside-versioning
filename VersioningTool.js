@@ -406,7 +406,7 @@ function setEventListener() {
                             cal.createSchedules([{
                                 id: save,
                                 isReadOnly: false,
-                                calendarId: i,
+                                calendarId: CalendarList[i].id,
                                 title: "Version " + save,
                                 body: status,
                                 dueDateClass: '',
