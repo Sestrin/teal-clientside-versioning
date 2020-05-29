@@ -251,61 +251,6 @@ function getDataAction(target) {
     return target.dataset ? target.dataset.action : target.getAttribute('data-action');
 }
 
-function getCalendarNumber(env) {
-    var env_string = "";
-    for(i in env) env_string += env[i].toString();
-    switch(env_string) {
-        case "0000":
-            return 0;
-        case "0001":
-            return 1;
-        case "0010":
-            return 2;
-        case "0100":
-            return 3;
-        case "1000":
-            return 4;
-        case "1001":
-            return 5;
-        case "1010":
-            return 6;
-        case "1100":
-            return 7;
-        case "0101":
-            return 8;
-        case "0110":
-            return 9;
-        case "0011":
-            return 10;
-        case "1110":
-            return 11;
-        case "1101":
-            return 12;
-        case "1011":
-            return 13;
-        case "0111":
-            return 14;
-        case "1111":
-            return 15;
-    }
-}
-function getCalendarList(env) {
-    var calList = [];
-    if(env[0] == 1) {
-        calList = calList.concat([4,5,6,7,11,12,13,15]);
-    }
-    if(env[1] == 1) {
-        calList = calList.concat([3,7,8,9,11,12,14,15]);
-    }
-    if(env[2] == 1) {
-        calList = calList.concat([2,6,9,10,11,13,14,15]);
-    }
-    if(env[3] == 1) {
-        calList = calList.concat([1,5,8,10,11,12,13,15]);
-    }
-    return calList;
-}
-
 function getEnvList(status, aliases) {
     var env = status.split(",");
     var env_output = [];
@@ -359,9 +304,7 @@ function onClickNavi(e) {
         var calendarElements = Array.prototype.slice.call(document.querySelectorAll('#calendarList input'));
         var allCheckedCalendars = true;
 
-        var calendar_number;
         var calendar_name = "";
-        var calendar_array = [0,0,0,0];
         var buttons = this.lastElementChild.children;
         for(i = 0; i < buttons.length; i++) {
             if(+buttons[i].children[0].children[0].children[0].children[0].checked) {
@@ -369,7 +312,6 @@ function onClickNavi(e) {
             }
         };
         calendar_name = calendar_name.substring(0, calendar_name.length - 1); //chop off last comma
-        calendar_number = getCalendarNumber(calendar_array);
 
         CalendarList.forEach(function(calendar) {
             if(calendar_name != calendar.name) {
