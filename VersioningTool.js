@@ -81,7 +81,6 @@ var page_HTML =`
       <button class="tablinks" onclick="openTab(event, 'Calendar-tab')">Calendar</button>
       <button class="tablinks" onclick="openTab(event, 'Variables')">Variables</button>
       <button class="tablinks" onclick="openTab(event, 'Extensions')">Extensions</button>
-      <button class="tablinks" onclick="openTab(event, 'Coleman')">Coleman</button>
    </div>
    <!-- Tab content -->
    <div id="Main" class="tabcontent">
@@ -351,9 +350,7 @@ function onClickNavi(e) {
         default:
             return;
     }
-
     setRenderRangeText();
-    //setSchedules();
 }
     function onChangeCalendars(e) {
         var calendarId = e.target.value;
@@ -381,32 +378,6 @@ function onClickNavi(e) {
                 calendar.checked = true;
             }
         });
-        //CalendarList[calendar_number].checked = true;
-        /*if (calendarId === 'all') {
-            allCheckedCalendars = checked;
-
-            calendarElements.forEach(function(input) {
-                var span = input.parentNode;
-                input.checked = checked;
-                span.style.backgroundColor = checked ? span.style.borderColor : 'transparent';
-            });
-
-            CalendarList.forEach(function(calendar) {
-                calendar.checked = checked;
-            });
-        } else {
-            findCalendar(calendarId).checked = checked;
-
-            allCheckedCalendars = calendarElements.every(function(input) {
-                return input.checked;
-            });
-
-            if (allCheckedCalendars) {
-                viewAll.checked = true;
-            } else {
-                viewAll.checked = false;
-            }
-        }*/
 
         refreshScheduleVisibility();
     }
@@ -452,16 +423,12 @@ function setEventListener() {
 
 var calendar_scripts = ['https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.js',
     'https://uicdn.toast.com/tui.dom/v3.0.0/tui-dom.js',
-    'https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js',
-    'https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js',
     'https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js',
     'https://nhn.github.io/tui.calendar/latest/dist/tui-calendar.js'
 ];
 var calendar_styles = ['https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css',
     'https://nhn.github.io/tui.calendar/latest/examples/css/icons.css',
     'https://nhn.github.io/tui.calendar/latest/dist/tui-calendar.css',
-    'https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css',
-    'https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css',
     "https://fonts.googleapis.com/css?family=Noto+Sans"
 ]
 
@@ -511,11 +478,9 @@ var custom_theme = {
     'month.moreViewTitle.padding': '0 10px',
     'month.moreViewList.padding': '10px'
 };
-
+var run_once_cal = false;
 function openTab(evt, tab_name) {
-
     var i, tabcontent, tablinks;
-
     // Get all elements with class="tabcontent" and hide them
     tabcontent = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tabcontent.length; i++) {
@@ -531,17 +496,13 @@ function openTab(evt, tab_name) {
     // Show the current tab, and add an "active" class to the button that opened the tab
     document.getElementById(tab_name).style.display = "block";
     evt.currentTarget.className += " active";
-    if (tab_name === "Calendar-tab") {
-
+    if (tab_name === "Calendar-tab" && run_once_cal === false) {
+        run_once_cal = true;
         setEventListener();
-
-        setTimeout(function() {
         var today = new Date();
         var date = today.getFullYear() + ("0" + (today.getMonth() + 1)).slice(-2) + today.getDate() + ("0" + today.getMinutes()).slice(-2) + ("0" + today.getSeconds()).slice(-2);
         getNewPublishes(date);
-
         setRenderRangeText();
-        }, 150);
     }
 }
 
