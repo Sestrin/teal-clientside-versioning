@@ -492,22 +492,6 @@ if (document.title != tool_name) {
     },1000);
 }
 
-//copied from utag.105
-var aliases = window.opener.utui.targets.getAliasList() || [];
-window.environments = [];
-for (var x in aliases) {
-    if (aliases[x].alias_name.length > 0) {
-        environments.push(aliases[x].alias_name);
-    } else {
-        environments.push(aliases[x].display_name);
-    }
-}
-
-var alias_key = Object.keys(aliases);
-var alias_names = [];
-for(i in aliases) {
-    alias_names.push(aliases[i].display_name);
-}
 var c_history = window.opener.utui.data.publish_history;
 prev = 202003031545; //any version without periods
 post = 202005061643; //any later version without periods
