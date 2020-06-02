@@ -485,6 +485,11 @@ if (document.title != tool_name) {
             },
             'beforeUpdateSchedule': function(e) {
                 console.log('beforeUpdateSchedule', e);
+            },
+            {
+            '_onClickEditSchedule': function(e) {
+                console.log('EDITING SCHEDULE', e);
+            }
             }
         })
     },1000);
